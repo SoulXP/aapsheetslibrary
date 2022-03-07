@@ -11,7 +11,7 @@ export type entry_t = {
     end: Date,
 };
 
-// Prep log constants
+
 const AAP_PREPLOG_V1_ENTRIES = 6;
 const AAP_PREPLOG_V2_ENTRIES = 10;
 
@@ -49,3 +49,4 @@ export function count_prep_entries(entries: prepentry_t[]): prepentry_t[] {
 
     return sorted_entries;
 }
+

@@ -1,5 +1,16 @@
 {
-  "dependencies": {
-    "@types/google-apps-script": "^1.0.45"
-  }
+    "name": "aap-sheets-library",
+    "private": true,
+    "scripts": {
+        "build": "webpack --mode none"
+    },
+    "dependencies": {
+        "@types/google-apps-script": "^1.0.45"
+    },
+    "dev_dependencies": {
+        "typescript": "^4.5.5",
+        "ts-loader": "^9.2.7",
+        "webpack": "^5.70.0",
+        "webpack-cli": "^4.9.2"
+    }
 }
