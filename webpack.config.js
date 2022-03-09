@@ -1,10 +1,13 @@
 const path = require('path');
+const GasPlugin = require('gas-webpack-plugin');
 
 const config = {
-    entry: './src/index.ts',
+    context: __dirname,
+    mode: 'none',
+    entry: './src/Code.ts',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: 'Code.js'
     },
     module: {
         rules: [
@@ -18,8 +21,12 @@ const config = {
         ]
     },
     resolve: {
-        extensions: ['.ts']
-    }
+        extensions: ['.ts'],
+        modules: ['./src']
+    },
+    plugins: [
+        new GasPlugin()
+    ]
 };
 
 module.exports = config

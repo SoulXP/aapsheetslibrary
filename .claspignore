@@ -1,5 +1,0 @@
-**/**
-!dist/**
-!appsscript.json
-build
-node_modules

@@ -39,31 +39,51 @@ export function string_to_prep_suite(suite: string): PrepSuites {
     }
 }
 
+export enum PrepEntryData {
+    skip,
+    invalid,
+    valid,
+    empty
+};
+
+export function string_to_prep_entry_data(type: string): PrepEntryData {
+    const sanitized: string = type.toLowerCase().trim();
+    switch (sanitized) {
+        case '':
+        case '>>>':
+        case '>>':
+        case '>':
+            return PrepEntryData.skip;
+        default:
+            return PrepEntryData.valid;
+    }
+}
+
 export enum PrepType {
     v1,
     v2,
 }
 
-export const PREP_ENTRY_SIZE: number = 7;
 export interface IPrepEntry {
     date: Date,
+    type: PrepType,
     suite: PrepSuites,
     employee: string,
-    start: Date,
-    tcin: Date,
-    tcout: Date,
-    end: Date,
+    start: string,
+    tcin: string,
+    tcout: string,
+    end: string,
 };
 
 export type PrepEntry = IPrepEntry;
 
-export function create_prep_entry(date = new Date(),
+export function create_prep_entry(date =  new Date(),
                                   suite = PrepSuites.unknown,
                                   employee = '',
-                                  start = new Date(),
-                                  end = new Date(),
-                                  tcin = new Date(),
-                                  tcout = new Date()): PrepEntry
+                                  start =  '',
+                                  end =  '',
+                                  tcin =  '',
+                                  tcout =  ''): PrepEntry
 {
     return { date, suite, employee, start, end, tcin, tcout };  
 }
