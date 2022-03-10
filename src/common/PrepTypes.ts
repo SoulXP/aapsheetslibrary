@@ -1,6 +1,8 @@
 // Stefan Olivier
 // Description: Common types for AAP production related data
 
+import { is_string } from "../utils/Algorithm";
+
 export enum PrepSuites {
     ws_one = 1,
     ws_two,
@@ -39,30 +41,51 @@ export function string_to_prep_suite(suite: string): PrepSuites {
     }
 }
 
-export enum PrepEntryData {
+export enum PrepEntryDataType {
     skip,
     invalid,
     valid,
     empty
 };
 
-export function string_to_prep_entry_data(type: string): PrepEntryData {
+export function string_to_prep_data_type(type: string): PrepEntryDataType {
     const sanitized: string = type.toLowerCase().trim();
     switch (sanitized) {
         case '':
+            return PrepEntryDataType.empty;
         case '>>>':
         case '>>':
         case '>':
-            return PrepEntryData.skip;
+        case 'v':
+            return PrepEntryDataType.skip;
         default:
-            return PrepEntryData.valid;
+            return PrepEntryDataType.valid;
     }
+}
+
+export function is_prep_empty(value: string): boolean {
+    return string_to_prep_data_type(value) === PrepEntryDataType.empty;
+}
+
+export function is_prep_skip(value: string): boolean {
+    return string_to_prep_data_type(value) === PrepEntryDataType.skip;
+}
+
+export function is_prep_valid(value: string): boolean {
+    return string_to_prep_data_type(value) === PrepEntryDataType.valid;
 }
 
 export enum PrepType {
     v1,
     v2,
+    unknown,
 }
+
+export type PrepSingleSourceData  = string | Date | boolean;
+export type PrepSingleSourceEntry = PrepSingleSourceData[];
+export type PrepMultiSourceEntry  = PrepSingleSourceEntry[];
+export type PrepSingleParsedEntry = [Date, string, string, string, string, string, string, string];
+export type PrepMultiParsedEntry  = PrepSingleParsedEntry[];
 
 export interface IPrepEntry {
     date: Date,
@@ -78,6 +101,7 @@ export interface IPrepEntry {
 export type PrepEntry = IPrepEntry;
 
 export function create_prep_entry(date =  new Date(),
+                                  type = PrepType.unknown,
                                   suite = PrepSuites.unknown,
                                   employee = '',
                                   start =  '',
@@ -85,5 +109,5 @@ export function create_prep_entry(date =  new Date(),
                                   tcin =  '',
                                   tcout =  ''): PrepEntry
 {
-    return { date, suite, employee, start, end, tcin, tcout };  
+    return { date, type, suite, employee, start, end, tcin, tcout };  
 }
