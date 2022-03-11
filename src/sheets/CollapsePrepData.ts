@@ -59,16 +59,14 @@ export function collapse_data(sheet_name: string,
             const column_index = j - (entry_group * PREP_ENTRY_SIZE);
 
             if (valid_prep_data(c_column)) {
-                new_entry = (is_complete_entry(c_column)) ? true : false;
-
                 switch (column_index) {
                     case 0:                     row_collapsed[0] = new Date(c_column as Date);                                                                break;
                     case 1:                     row_collapsed[1] = (j < PREP_ENTRY_SIZE * PREP_V1_SIZE) ? 'V1' : 'V2'; row_collapsed[2] = c_column as string; break;
-                    case 2:                     row_collapsed[3] = c_column as string;                                                                        break;
-                    case 3:                     row_collapsed[4] = c_column as string;                                                                        break;
-                    case 4:                     row_collapsed[5] = c_column as string;                                                                        break;
-                    case 5:                     row_collapsed[6] = c_column as string;                                                                        break;
-                    case 6:                     row_collapsed[7] = c_column as string;                                                                        break;
+                    case 2:                     row_collapsed[3] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
+                    case 3:                     row_collapsed[4] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
+                    case 4:                     row_collapsed[5] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
+                    case 5:                     row_collapsed[6] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
+                    case 6:                     row_collapsed[7] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
                     default: new_entry = false;                                                                                                               break;
                 }
             }
