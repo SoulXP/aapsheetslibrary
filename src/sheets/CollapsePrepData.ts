@@ -40,7 +40,7 @@ export function collapse_data(sheet_name: string,
     const data_collapsed: PrepMultiParsedEntry = [];
     let entry_group: number = 0;
     let entry_position: number = 0;
-    let new_entry: boolean = false;
+    let new_entry: boolean = true;
 
     prep_data.forEach((c_row: PrepSingleSourceEntry): void => {
         // const row_collapsed: PrepEntry = create_prep_entry();
@@ -57,18 +57,17 @@ export function collapse_data(sheet_name: string,
 
         c_row.forEach((c_column: PrepColumn, j: number): void => {
             const column_index = j - (entry_group * PREP_ENTRY_SIZE);
+            new_entry = (is_complete_entry(c_column) && valid_prep_data(c_column)) ? new_entry && true : false;
 
-            if (valid_prep_data(c_column)) {
-                switch (column_index) {
-                    case 0:                     row_collapsed[0] = new Date(c_column as Date);                                                                break;
-                    case 1:                     row_collapsed[1] = (j < PREP_ENTRY_SIZE * PREP_V1_SIZE) ? 'V1' : 'V2'; row_collapsed[2] = c_column as string; break;
-                    case 2:                     row_collapsed[3] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
-                    case 3:                     row_collapsed[4] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
-                    case 4:                     row_collapsed[5] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
-                    case 5:                     row_collapsed[6] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
-                    case 6:                     row_collapsed[7] = c_column as string; new_entry = (is_complete_entry(c_column)) ? true : false;              break;
-                    default: new_entry = false;                                                                                                               break;
-                }
+            switch (column_index) {
+                case 0:                     row_collapsed[0] = new Date(c_column as Date);                                                                break;
+                case 1:                     row_collapsed[1] = (j < PREP_ENTRY_SIZE * PREP_V1_SIZE) ? 'V1' : 'V2'; row_collapsed[2] = c_column as string; break;
+                case 2:                     row_collapsed[3] = c_column as string;                                                                        break;
+                case 3:                     row_collapsed[4] = c_column as string;                                                                        break;
+                case 4:                     row_collapsed[5] = c_column as string;                                                                        break;
+                case 5:                     row_collapsed[6] = c_column as string;                                                                        break;
+                case 6:                     row_collapsed[7] = c_column as string;                                                                        break;
+                default: new_entry = false;                                                                                                               break;
             }
 
             entry_position++;
@@ -78,13 +77,15 @@ export function collapse_data(sheet_name: string,
 
                 if (new_entry) {
                     data_collapsed.push([...row_collapsed]);
-                    new_entry = false;
                 }
+
+                new_entry = true;
             }
         });
         
         entry_group = 0;
         entry_position = 0;
+        new_entry = true;
     });
 
     return data_collapsed;
